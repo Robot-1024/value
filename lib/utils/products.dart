@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class Products extends StatefulWidget {
   final String productName;
-  final IconData productIcon;
+  final IconData productIcon; // 从外部传入图标
   final DateTime productBuyDate;
   final double productPrice;
 
@@ -29,6 +29,9 @@ class _ProductsState extends State<Products> {
     // 在 initState 中初始化 unitPrice
     unitPrice =
         DateTime.now().difference(widget.productBuyDate).inDays.toDouble();
+    if (unitPrice <= 0) {
+      unitPrice = 1.0; // 避免除以零或负数
+    }
   }
 
   @override
@@ -72,7 +75,6 @@ class _ProductsState extends State<Products> {
               ],
             ),
             SizedBox(height: 4),
-
             Row(
               children: [
                 Text(

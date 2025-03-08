@@ -10,12 +10,27 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final List<Map<String, dynamic>> _products = [];
 
-  void createNewProduct(){
+  void createNewProduct() {
     showDialog(
-      context: context, builder: (context) {
-        return DialogBox();
-      }
+      context: context,
+      builder:
+          (context) => DialogBox(
+            productNameFromUser: '',
+            productPriceFromUser: '',
+            productBuyDateFromUser: DateTime.now(),
+            onSave: (String name, double price, DateTime date, IconData icon) {
+              setState(() {
+                _products.add({
+                  'name': name,
+                  'price': price,
+                  'date': date,
+                  'icon': icon, // 存储图标
+                });
+              });
+            },
+          ),
     );
   }
 
@@ -24,7 +39,7 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
             "Value",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
@@ -32,26 +47,20 @@ class _HomepageState extends State<Homepage> {
         ),
         backgroundColor: Colors.indigo,
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: createNewProduct,
         backgroundColor: Colors.indigo,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-
       body: ListView(
         children: [
-          Products(
-            productName: "一加 Ace 2V",
-            productIcon: Icons.smartphone,
-            productBuyDate: DateTime(2023, 11, 1),
-            productPrice: 299,
-          ),
-
-          
+          for (var product in _products)
+            Products(
+              productName: product['name'],
+              productIcon: product['icon'], // 动态传递图标
+              productBuyDate: product['date'],
+              productPrice: product['price'],
+            ),
         ],
       ),
     );

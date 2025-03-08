@@ -3,7 +3,7 @@ description: "一个帮助你调整电子产品等高价消费的工具"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' 
-version: 1.0.0+1
+version: 1.2.0
 
 environment:
   sdk: ^3.7.0
